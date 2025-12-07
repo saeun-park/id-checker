@@ -18,8 +18,18 @@ export default function Camera() {
   }
 
   const takePicture = async () => {
-    const photo = await camera.takePictureAsync();
-    router.push({ pathname: '/result', params: { imageUri: photo.uri } });
+    if (!camera) return;
+
+    try {
+      const photo = await camera.takePictureAsync();
+      // 사진 찍은 후에 이동
+      router.push({
+        pathname: '/result',
+        params: { imageUri: photo.uri },
+      });
+    } catch (error) {
+      console.log('Camera error:', error);
+    }
   };
 
   return (
